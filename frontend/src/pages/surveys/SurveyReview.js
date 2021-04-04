@@ -1,10 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 
 import formFields from './FormContent';
+import { sendSurvey } from '../../redux/actions/survey.action';
 
 const SurveyFormReview = ({ onCancelHandler }) => {
+  const dispatch = useDispatch();
+
   const { form } = useSelector(state => ({ ...state }));
   const formValues = form.surveyForm.values;
 
@@ -17,6 +20,10 @@ const SurveyFormReview = ({ onCancelHandler }) => {
     );
   });
 
+  const onClickHandler = () => {
+    dispatch(sendSurvey(formValues));
+  };
+
   return (
     <div className="container">
       <h5>Please confirm your entries</h5>
@@ -24,7 +31,10 @@ const SurveyFormReview = ({ onCancelHandler }) => {
       <button className="btn btn-warning" onClick={onCancelHandler}>
         Back
       </button>
-      <button className="btn btn-primary btn-raised float-right">
+      <button
+        className="btn btn-primary btn-raised float-right"
+        onClick={onClickHandler}
+      >
         Send Survey
       </button>
     </div>
